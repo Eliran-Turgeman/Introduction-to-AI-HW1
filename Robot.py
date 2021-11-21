@@ -46,16 +46,14 @@ class BreadthFirstSearchRobot(Robot):
 
             self.close.add(next_node)
             ############################################################################################################
-            # TODO (EX. 4.1): complete code here, delete exception
-            if maze.is_goal(next_node.state):
-                return GraphSearchSolution(final_node=next_node, solve_time=curr_time() - start_time,
-                                           n_node_expanded=n_node_expanded, no_solution_reason=None)
             n_node_expanded += 1
             for state, cost in maze.expand_state(next_node.state):
                 if state not in self.close and state not in self.queue:
-
-                    self.queue.add(Node(state, next_node, g_value=next_node.g_value + cost))
-
+                    next_node_child = Node(state, next_node, g_value=next_node.g_value + cost)
+                    if maze.is_goal(state):
+                        return GraphSearchSolution(final_node=next_node_child, solve_time=curr_time() - start_time,
+                                                    n_node_expanded=n_node_expanded)
+                    self.queue.add(next_node_child)
             ############################################################################################################
         # If we are here, then we didn't find a solution during the search
         assert no_solution_found

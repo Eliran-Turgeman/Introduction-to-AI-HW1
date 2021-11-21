@@ -23,6 +23,7 @@ def main_test(test_index):
     for solution, key in zip(solutions, EXPECTED_RESULTS.keys()):
         assert EXPECTED_RESULTS[key][int(test_index)][0] == solution.cost, f"cost equals {solution.cost} in test {test_index} of {key}"
         assert EXPECTED_RESULTS[key][int(test_index)][1] == solution.n_node_expanded, f"node expanded equals {solution.n_node_expanded} in test {test_index} of {key}"
+        print(f"TEST {test_index} for {key} PASSED")
 
     if SHOW_ANIMATION:
         try:
