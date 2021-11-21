@@ -50,10 +50,10 @@ class BreadthFirstSearchRobot(Robot):
             if maze.is_goal(next_node.state):
                 return GraphSearchSolution(final_node=next_node, solve_time=curr_time() - start_time,
                                            n_node_expanded=n_node_expanded, no_solution_reason=None)
-
+            n_node_expanded += 1
             for state, cost in maze.expand_state(next_node.state):
                 if state not in self.close and state not in self.queue:
-                    n_node_expanded += 1
+
                     self.queue.add(Node(state, next_node, g_value=next_node.g_value + cost))
 
             ############################################################################################################
@@ -111,9 +111,9 @@ class BestFirstSearchRobot(Robot):
                     return GraphSearchSolution(next_node, solve_time=curr_time() - start_time,
                                                n_node_expanded=n_node_expanded, init_heuristic_time=init_heuristic_time)
             ############################################################################################################
+            n_node_expanded += 1
             for state, cost in maze_problem.expand_state(next_node.state):
                 if state not in self.close and state not in self.open:
-                    n_node_expanded += 1
                     next_node_child = Node(state, next_node, cost + next_node.g_value)
                     self.open.add(next_node_child, self._calc_node_priority(next_node_child))
 
