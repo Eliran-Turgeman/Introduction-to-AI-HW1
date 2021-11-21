@@ -111,9 +111,25 @@ class BestFirstSearchRobot(Robot):
                     return GraphSearchSolution(next_node, solve_time=curr_time() - start_time,
                                                n_node_expanded=n_node_expanded, init_heuristic_time=init_heuristic_time)
             ############################################################################################################
-            # TODO (EX. 5.1): complete code here, delete exception
-            raise NotImplemented
+            for state, cost in maze_problem.expand_state(next_node.state):
+                if state not in self.close and state not in self.open:
+                    n_node_expanded += 1
+                    next_node_child = Node(state, next_node, cost + next_node.g_value)
+                    self.open.add(next_node_child, self._calc_node_priority(next_node_child))
 
+                elif state in self.close:
+                    next_node_child = self.close.get_node(state)
+                    if cost + next_node.g_value < next_node_child.g_value:
+                        self.close.remove_node(next_node_child)
+                        next_node_child.g_value = cost + next_node.g_value
+                        self.open.add(next_node_child, self._calc_node_priority(next_node_child))
+
+                elif state in self.open:
+                    next_node_child = self.open.get_node(state)
+                    if cost + next_node.g_value < next_node_child.g_value:
+                        self.open.remove_node(next_node_child)
+                        next_node_child.g_value = cost + next_node.g_value
+                        self.open.add(next_node_child, self._calc_node_priority(next_node_child))
             ############################################################################################################
 
         if compute_all_dists:
@@ -131,8 +147,7 @@ class UniformCostSearchRobot(BestFirstSearchRobot):
         self.name = "uniform cost search robot"
 
     def _calc_node_priority(self, node):
-        # TODO (Ex. 5.2): complete code here (just return the g value), delete exception
-        raise NotImplemented
+        return node.g_value
 
 class WAStartRobot(BestFirstSearchRobot):
     def __init__(self, heuristic, w=0.5, **h_params):
