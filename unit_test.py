@@ -1,11 +1,13 @@
 from MazeProblem import MazeProblem, create_problem
-from Robot import BreadthFirstSearchRobot as BFS, UniformCostSearchRobot, BestFirstSearchRobot
+from Robot import BreadthFirstSearchRobot as BFS, UniformCostSearchRobot, BestFirstSearchRobot, WAStartRobot
 from Animation import Animation
+from Heuristics import *
 import sys
 import argparse
 
 EXPECTED_RESULTS = {'bfs': [(36, 57), (51, 362), (216, 1212), (88, 2430), (123, 1209), (376, 5299)],
-                    'ucs': [(36, 51), (47, 312), (216, 1212), (84, 2447), (123, 1205), (376, 5299)]}
+                    'ucs': [(36, 51), (47, 312), (216, 1212), (84, 2447), (123, 1205), (376, 5299)],
+                    'was': [(36, 38), (47, 193), (216, 1196), (84, 2312), (123, 732), (376, 5289)]}
 
 def parse():
     parser = argparse.ArgumentParser()
@@ -30,6 +32,11 @@ def main_test(test_index, methods, animate):
         ucs = UniformCostSearchRobot()
         ucs_solution = ucs.solve(maze_problem)
         solutions['ucs'] = {'algorithm': ucs, 'solution': ucs_solution}
+
+    if 'was' in methods:
+        wa_star = WAStartRobot(tail_manhattan_heuristic)
+        wa_star_solution = wa_star.solve(maze_problem)
+        solutions['was'] = {'algorithm': wa_star, 'solution': wa_star_solution}
 
     for key, search_alg_data in solutions.items():
         solution = search_alg_data['solution']
