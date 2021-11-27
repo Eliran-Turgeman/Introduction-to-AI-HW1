@@ -17,8 +17,6 @@ def center_manhattan_heuristic(state: MazeState):
     center_pos = state.tail + state.head / 2
     center_goal = (state.maze_problem.tail_goal + state.maze_problem.head_goal) / 2
     return np.sum(abs(center_goal - center_pos))
-    forward_cost = state.maze_problem.forward_cost
-    return (abs(tail_goal[0] - tail_pos[0]) + abs(tail_goal[1] - tail_pos[1])) * forward_cost
 
 
 class ShorterRobotHeuristic:
