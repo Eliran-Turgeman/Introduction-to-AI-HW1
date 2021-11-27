@@ -7,4 +7,5 @@ from Experiments import *
 
 
 if __name__ == "__main__":
-    test_robot(WAStartRobot, [0, 1, 2, 3, 4, 5], heuristic=ShorterRobotHeuristic, k = 2)
+    for k in [2,4,6,8]:
+        test_robot(WAStartRobot, [3, 4], heuristic=ShorterRobotHeuristic, k = k)
