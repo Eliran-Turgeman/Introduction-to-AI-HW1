@@ -32,10 +32,10 @@ class ShorterRobotHeuristic:
         shorter_robot_head_goal, shorter_robot_tail_goal = self._compute_shorter_head_and_tails(maze_problem.head_goal, maze_problem.tail_goal)
         shorter_robot_head_initial, shorter_robot_tail_initial = self._compute_shorter_head_and_tails(maze_problem.initial_state.head, maze_problem.initial_state.tail)
         self.new_maze_problem = MazeProblem(maze_map=maze_problem.maze_map,
-                                            initial_head=shorter_robot_head_initial,
-                                            initial_tail=shorter_robot_tail_initial,
-                                            head_goal=shorter_robot_head_goal,  # doesn't matter, don't change
-                                            tail_goal=shorter_robot_tail_goal)  # doesn't matter, don't change
+                                            initial_head=shorter_robot_tail_goal,
+                                            initial_tail=shorter_robot_head_goal,
+                                            head_goal=shorter_robot_tail_initial,  # doesn't matter, don't change
+                                            tail_goal=shorter_robot_head_initial)  # doesn't matter, don't change
         self.node_dists = UniformCostSearchRobot().solve(self.new_maze_problem, compute_all_dists=True)
         ################################################################################################################
 
@@ -65,7 +65,7 @@ class ShorterRobotHeuristic:
     def __call__(self, state: MazeState):
         # TODO (EX. 13.3): replace each three dots, delete exception
         shorter_head_location, shorter_tail_location = self._compute_shorter_head_and_tails(state.head, state.tail)
-        new_state = MazeState(self.new_maze_problem, head=shorter_head_location, tail=shorter_tail_location)
+        new_state = MazeState(self.new_maze_problem, head=shorter_tail_location, tail=shorter_head_location)
         if new_state in self.node_dists:
             node = self.node_dists.get_node(new_state)
             return node.g_value
