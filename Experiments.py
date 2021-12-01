@@ -41,8 +41,10 @@ def shorter_robot_heuristic_experiment(maze_index):
     for k in ks:
         ################################################################################################################
         # TODO (EX. 16.3): complete code here, delete exception
-        raise NotImplemented
-
+        short_robot = WAStartRobot(heuristic=ShorterRobotHeuristic, k=k)
+        short_robot_solution = short_robot.solve(problem)
+        solve_times.append(short_robot_solution.solve_time)
+        heuristic_init_times.append(short_robot_solution.init_heuristic_time)
         ################################################################################################################
 
     plt.bar(ks, height=solve_times, color="b", label="total run time")

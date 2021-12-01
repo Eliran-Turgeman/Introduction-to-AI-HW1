@@ -14,7 +14,7 @@ def tail_manhattan_heuristic(state: MazeState):
 
 def center_manhattan_heuristic(state: MazeState):
     # TODO (EX 9.2), implement heuristic, delete exception
-    center_pos = state.tail + state.head / 2
+    center_pos = (state.tail + state.head) / 2
     center_goal = (state.maze_problem.tail_goal + state.maze_problem.head_goal) / 2
     return np.sum(abs(center_goal - center_pos))
 
@@ -28,7 +28,8 @@ class ShorterRobotHeuristic:
         ################################################################################################################
         # TODO (EX. 13.2): replace all three dots, delete exception
         shorter_robot_head_goal, shorter_robot_tail_goal = self._compute_shorter_head_and_tails(maze_problem.head_goal, maze_problem.tail_goal)
-        shorter_robot_head_initial, shorter_robot_tail_initial = self._compute_shorter_head_and_tails(maze_problem.initial_state.head, maze_problem.initial_state.tail)
+        shorter_robot_head_initial, shorter_robot_tail_initial = self._compute_shorter_head_and_tails(
+            maze_problem.initial_state.head, maze_problem.initial_state.tail)
         self.new_maze_problem = MazeProblem(maze_map=maze_problem.maze_map,
                                             initial_head=shorter_robot_tail_goal,
                                             initial_tail=shorter_robot_head_goal,
@@ -68,6 +69,6 @@ class ShorterRobotHeuristic:
             node = self.node_dists.get_node(new_state)
             return node.g_value
         else:
-            return center_manhattan_heuristic(state)
+            return float("INF")
             # what should we return in this case, so that the heuristic would be as informative as possible
                         # but still admissible
